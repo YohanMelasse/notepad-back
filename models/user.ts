@@ -1,22 +1,32 @@
 import {  DataTypes, 
           Model, 
-          DateDataType, 
-          InferAttributes, 
-          IntegerDataType, 
-          StringDataType, 
-          TextDataType } from "sequelize";
+          InferAttributes,
+          Optional
+        } from "sequelize";
 import { sequelize } from "../database/database";
 
-class User extends Model<InferAttributes<User>> {
-  declare id: IntegerDataType;
-  declare lastname: StringDataType;
-  declare firstname: StringDataType;
-  declare email: StringDataType;
-  declare username: StringDataType;
-  declare password: TextDataType;
-  declare created_at: DateDataType;
-  declare updated_at: DateDataType;
+type UserAttribute = {
+  id: number,
+  lastname: string,
+  firstname: string,
+  email: string,
+  username: string,
+  password: string,
+  created_at: Date
+}
+
+type UserCreationAttribute = Optional<UserAttribute, "created_at">
+class User extends Model <UserAttribute, UserCreationAttribute> {
+  declare id: number;
+  declare lastname: string;
+  declare firstname: string;
+  declare email: string;
+  declare username: string;
+  declare password: string;
+  declare created_at: Date;
 };
+
+
 
 // Note model creation , instance of Model.
 
@@ -51,10 +61,6 @@ User.init({
   },
   created_at: {
     type: DataTypes.DATE,
-    allowNull: false
-  },
-  updated_at: {
-    type: DataTypes.DATE, 
     allowNull: false
   }
 }, {

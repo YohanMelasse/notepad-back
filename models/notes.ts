@@ -1,14 +1,26 @@
-import { Model, DataTypes, DateDataType, IntegerDataType, TextDataType, InferAttributes, StringDataType } from "sequelize";
+import { Model, 
+        DataTypes, 
+        Optional, 
+        } from "sequelize";
 import { sequelize } from "../database/database";
 
+type NoteCreationAttribute = {
+  id: number;
+  title: string;
+  content: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
+type NoteAttribute = Optional<NoteCreationAttribute, "created_at"  |  "updated_at">
 // Note model creation , instance of Model.
 
-class Note extends Model<InferAttributes<Note>> {
-  declare id: IntegerDataType;
-  declare title: StringDataType;
-  declare content: TextDataType;
-  declare created_at: DateDataType;
-  declare updated_at: DateDataType;
+class Note extends Model<NoteAttribute> {
+  declare id: string;
+  declare title: string;
+  declare content: string;
+  declare created_at: Date;
+  declare updated_at: Date;
 };
 
 Note.init({
